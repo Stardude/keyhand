@@ -1,12 +1,18 @@
 {
-  "name": "diploma",
+  "name": "diploma-project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "engines": {
+    "node": "8.9.0"
+  },
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.16.2"
+  }
 }

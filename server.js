@@ -1,6 +1,6 @@
-var http = require('http');
+const express = require('express');
 
-http.createServer((req, res) => {
-    res.writeHead(200, {'Content-Type': 'text/plain'});
-    res.end('Hello');
-}).listen(process.env.PORT);
+const app = express();
+app.use(express.static('frontend'));
+
+app.listen(3000, () => console.log('Listening on port 3000...'));
