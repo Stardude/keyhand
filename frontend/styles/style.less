@@ -1,0 +1,80 @@
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Courier New';
+}
+
+#top-toolbar {
+    width: 100%;
+    background-color: black;
+
+    color: white;
+
+    #toolbar-wrapper {
+        margin: 0 20px;
+
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+
+        .user-wrapper {
+            text-align: right;
+            width: 200px;
+            font-size: 16pt;
+        }
+    }
+}
+
+#footer {
+    width: 100%;
+    background-color: black;
+    
+    position: absolute;
+    bottom: 0px;
+    color: white;
+
+    #footer-wrapper {
+        margin: 10px 20px;
+        text-align: right;
+    }
+}
+
+#main-container {
+    margin: 100px auto 0 auto;
+    max-width: 700px;
+
+    //border: 1px solid black;
+
+    #main-container-wrapper {
+        margin: 10px;
+
+        .title {
+            margin: 0;
+            font-size: 64pt;
+            font-weight: bold;
+            text-decoration: underline;
+            text-align: center;
+        }
+
+        #search-container {
+            margin: 20px 0;
+            font-size: 16pt;
+            font-weight: bold;
+
+            p:first-child {
+                margin: 0;
+            }
+
+            #search-textarea {
+                border: 1px solid black;
+                border-radius: 5px;
+                width: 100%;
+                font-size: 16pt;
+                font-family: 'Courier New';
+                font-weight: bold;
+                padding: 5px;
+            }
+        }
+    }
+}
