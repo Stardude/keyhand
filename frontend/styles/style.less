@@ -4,6 +4,11 @@ body {
     font-family: 'Courier New';
 }
 
+.main-font {
+    font-family: 'Courier New';
+    font-weight: bold;
+}
+
 #top-toolbar {
     width: 100%;
     background-color: black;
@@ -41,39 +46,77 @@ body {
 }
 
 #main-container {
-    margin: 100px auto 0 auto;
+    margin: 120px auto 0 auto;
     max-width: 700px;
-
-    //border: 1px solid black;
 
     #main-container-wrapper {
         margin: 10px;
 
         .title {
-            margin: 0;
+            &:extend(.main-font);
             font-size: 64pt;
-            font-weight: bold;
+            margin: 0;
             text-decoration: underline;
             text-align: center;
         }
 
         #search-container {
-            margin: 20px 0;
+            &:extend(.main-font);
             font-size: 16pt;
-            font-weight: bold;
+            margin: 40px 0;
 
             p:first-child {
                 margin: 0;
             }
 
             #search-textarea {
-                border: 1px solid black;
-                border-radius: 5px;
-                width: 100%;
+                &:extend(.main-font);
                 font-size: 16pt;
-                font-family: 'Courier New';
-                font-weight: bold;
+                resize: none;
+                outline: none;
+                border: 2px solid black;
+                border-radius: 10px;
+                width: 100%;
                 padding: 5px;
+            }
+        }
+
+        #button-container {
+            &:extend(.main-font);
+            font-size: 20pt;
+            text-align: center;
+
+            button {
+                &:extend(.main-font);
+                font-size: 20pt;
+                display: inline-block;
+                background: none;
+                outline: none;
+                border: none;
+                cursor: pointer;
+            }
+
+            .divider {
+                position: relative;
+
+                &:before, &:after {
+                    content: "";
+                    display: block;
+                    width: 40%;
+                    height: 5px;
+                    background-color: black;
+                    border-radius: 5px;
+                    position: absolute;
+                    top: 50%;
+                }
+
+                &:before {
+                    left: 5%;
+                }
+
+                &:after {
+                    right: 5%;
+                }
             }
         }
     }
