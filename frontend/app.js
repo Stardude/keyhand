@@ -7,8 +7,8 @@
         ])
         .run(run);
     
-    function run () {
-        console.log('Lets the party start');
+    function run($state, STATES) {
+        $state.go(STATES.ROOT);
     }
     
 })(window.angular);

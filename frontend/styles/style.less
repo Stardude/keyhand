@@ -46,78 +46,121 @@ body {
 }
 
 #main-container {
-    margin: 120px auto 0 auto;
+    margin: 120px auto 50px auto;
     max-width: 700px;
 
     #main-container-wrapper {
         margin: 10px;
+    }
+}
 
-        .title {
-            &:extend(.main-font);
-            font-size: 64pt;
-            margin: 0;
-            text-decoration: underline;
-            text-align: center;
-        }
+.header {
+    &:extend(.main-font);
+    font-size: 64pt;
+    margin: 0 0 40px 0;
+    text-decoration: underline;
+    text-align: center;
+}
 
-        #search-container {
+#search-container {
+    &:extend(.main-font);
+    font-size: 16pt;
+    margin: 0 0 40px 0;
+
+    p:first-child {
+        margin: 0;
+    }
+}
+
+.fullwidth-textarea {
+    &:extend(.main-font);
+    font-size: 16pt;
+    resize: none;
+    outline: none;
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 100%;
+    padding: 5px;
+}
+
+#button-container {
+    &:extend(.main-font);
+    font-size: 20pt;
+    text-align: center;
+
+    button {
+        &:extend(.main-font);
+        font-size: 20pt;
+        display: inline-block;
+        background: none;
+        outline: none;
+        border: none;
+        cursor: pointer;
+    }
+}
+
+.text-divider {
+    position: relative;
+    margin: 30px 0;
+    display: block;
+
+    &:before, &:after {
+        content: "";
+        display: block;
+        width: 40%;
+        height: 5px;
+        background-color: black;
+        border-radius: 5px;
+        position: absolute;
+        top: 50%;
+    }
+
+    &:before {
+        left: 5%;
+    }
+
+    &:after {
+        right: 5%;
+    }
+}
+
+.line-divider {
+    margin: 60px auto;
+    display: block;
+    width: 80%;
+    height: 5px;
+    background-color: black;
+    border-radius: 5px;
+}
+
+#register-form {
+    span {
+        &:extend(.main-font);
+        font-size: 16pt;
+    }
+
+    input {
+        &:extend(.main-font);
+        font-size: 16pt;
+        outline: none;
+        border: 1px solid black;
+        border-radius: 10px;
+        width: 100%;
+        padding: 5px;
+    }
+
+    .sample {
+        margin: 30px 0;
+
+        div:first-child {
             &:extend(.main-font);
             font-size: 16pt;
-            margin: 40px 0;
-
-            p:first-child {
-                margin: 0;
-            }
-
-            #search-textarea {
-                &:extend(.main-font);
-                font-size: 16pt;
-                resize: none;
-                outline: none;
-                border: 2px solid black;
-                border-radius: 10px;
-                width: 100%;
-                padding: 5px;
-            }
-        }
-
-        #button-container {
-            &:extend(.main-font);
-            font-size: 20pt;
-            text-align: center;
-
-            button {
-                &:extend(.main-font);
-                font-size: 20pt;
-                display: inline-block;
-                background: none;
-                outline: none;
-                border: none;
-                cursor: pointer;
-            }
-
-            .divider {
-                position: relative;
-
-                &:before, &:after {
-                    content: "";
-                    display: block;
-                    width: 40%;
-                    height: 5px;
-                    background-color: black;
-                    border-radius: 5px;
-                    position: absolute;
-                    top: 50%;
-                }
-
-                &:before {
-                    left: 5%;
-                }
-
-                &:after {
-                    right: 5%;
-                }
-            }
+            margin-top: 50px;
         }
     }
+}
+
+.sample-text {
+    font-style: italic;
+    font-size: 16pt;
 }

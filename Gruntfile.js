@@ -43,8 +43,19 @@ module.exports = grunt => {
                 files: ['frontend/styles/**/*.less'],
                 tasks: ['less']
             }
+        },
+        injector: {
+            options: {
+                template: 'frontend/index.template.html',
+                ignorePath: ['frontend']
+            },
+            dependencies: {
+                files: {
+                    'frontend/index.html': ['frontend/config/**/*.js', 'frontend/components/**/*.js']
+                }
+            }
         }
     });
 
-    grunt.registerTask('build', ['clean', 'includeSource', 'concat:dependencies_js', 'less']);
+    grunt.registerTask('build', ['clean', 'includeSource', 'concat:dependencies_js', 'less', 'injector']);
 };
