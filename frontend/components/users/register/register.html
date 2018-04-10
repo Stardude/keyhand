@@ -7,10 +7,6 @@
             <input type="text" ng-model="fullName">
         </p>
         <p>
-            <span>Your home city: </span>
-            <input type="text" ng-model="homeCity">
-        </p>
-        <p>
             <span>Your password: </span>
             <input type="password" ng-model="password">
         </p>
@@ -19,8 +15,11 @@
         
         <div class="sample">
             <div>Please, enter the text below:</div>
-            <p class="sample-text" align="center">"London is the capital of Great Britain"</p>
-            <textarea class="fullwidth-textarea"></textarea>
+            <p class="sample-text" align="center">"{{sample}}"</p>
+            <textarea class="fullwidth-textarea"
+                ng-model="sampleText"
+                ng-keyup="onKeyUp($event)"
+                ng-keydown="onKeyDown($event)"></textarea>
         </div>
     </form>
 </div>
