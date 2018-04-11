@@ -18,52 +18,46 @@
         });
     }
 
-    function RegisterController($scope) {
-        $scope.sample = 'london is the capital of great britain';
+    function RegisterController($scope, textAnalyzerService) {
+        $scope.sampleText = 'london is the capital of great britain';
         $scope.onKeyUp = onKeyUp;
         $scope.onKeyDown = onKeyDown;
 
-        var list = [];
+        var characters = [];
 
         function onKeyUp(e) {
-            !isValidSampleText() && handleSampleTextError();
-            for (var i = list.length - 1; i >= 0; i--) {
-                if (list[i].key === e.key) {
-                    list[i].keyUpTime = e.timeStamp;
+            !isValidUserText() && handleUserTextError();
+            for (var i = characters.length - 1; i >= 0; i--) {
+                if (characters[i].key === e.key) {
+                    characters[i].upTime = e.timeStamp;
                     break;
                 }
             }
-            $scope.sample === $scope.sampleText && handleSampleTextFinish();
+            $scope.sampleText === $scope.userText && characters[characters.length - 1].key === e.key && handleUserTextFinish();
         }
 
         function onKeyDown(e) {
             if ((e.keyCode > 64 && e.keyCode < 91) || e.keyCode === 32) {
-                list.push({
+                characters.push({
                     key: e.key,
-                    keyUpTime: null,
-                    keyDownTime: e.timeStamp,
-                    keyPressTime: null
+                    upTime: null,
+                    downTime: e.timeStamp
                 });
             }
         }
 
-        function isValidSampleText() {
-            return $scope.sample.substr(0, $scope.sampleText.length) === $scope.sampleText;
+        function isValidUserText() {
+            return $scope.sampleText.substr(0, $scope.userText.length) === $scope.userText;
         }
 
-        function handleSampleTextError() {
-            $scope.sampleText = '';
-            list = [];
+        function handleUserTextError() {
+            $scope.userText = '';
+            characters = [];
         }
 
-        function handleSampleTextFinish() {
-            for (var i = 0; i < list.length; i++) {
-                list[i].keyPressTime =  list[i].keyUpTime -  list[i].keyDownTime;
-                if (i + 1 !== list.length) {
-                    list[i].keyPauseTime = list[i + 1].keyDownTime -  list[i].keyUpTime;
-                }
-            }
-            console.log(list);
+        function handleUserTextFinish() {
+            textAnalyzerService.handleUserText(characters);
+            characters = [];
         }
     }
 
