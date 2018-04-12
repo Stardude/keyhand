@@ -3,11 +3,13 @@
     
     angular
         .module('app', [
-            'ui.router'
+            'ui.router',
+            'ngResource'
         ])
         .run(run);
     
     function run($state, STATES) {
+        console.log('run');
         $state.go(STATES.ROOT);
     }
     

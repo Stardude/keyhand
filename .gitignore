@@ -2,6 +2,5 @@ node_modules/
 .idea
 .vscode
 package-lock.json
-frontend/index.html
 frontend/assets/css/
 frontend/assets/js/

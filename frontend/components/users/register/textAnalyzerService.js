@@ -5,7 +5,7 @@
         .module('app')
         .factory('textAnalyzerService', textAnalyzerService);
 
-    function textAnalyzerService() {
+    function textAnalyzerService(User) {
         var S_MAX = 900;
 
         function calculatePressAndPauseTime(characters) {
@@ -99,6 +99,9 @@
             var arrhythmia = calculateArrhythmia(charactersPressAndPause, mathematicalHope);
             var speed = calculateSpeed(characters);
             var overlaps = calculateOverlaps(characters, getMax(charactersPressAndPause, 'pressTime'));
+
+            User.saveUserData(charactersPressAndPause, mathematicalHope, arrhythmia, speed, overlaps);
+
             console.log(charactersPressAndPause);
             console.log(mathematicalHope);
             console.log(arrhythmia);

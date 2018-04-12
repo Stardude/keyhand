@@ -1,7 +1,13 @@
 const express = require('express');
 
+const routing = require('./routing');
+const middlewares = require('./middlewares');
+
 const app = express();
 app.use(express.static('frontend'));
+
+middlewares.register(app);
+routing.register(app);
 
 const PORT = 5000;
 
