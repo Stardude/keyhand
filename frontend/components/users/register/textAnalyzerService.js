@@ -5,7 +5,7 @@
         .module('app')
         .factory('textAnalyzerService', textAnalyzerService);
 
-    function textAnalyzerService(User) {
+    function textAnalyzerService() {
         var S_MAX = 900;
 
         function calculatePressAndPauseTime(characters) {
@@ -93,27 +93,30 @@
             };
         }
         
-        function handleUserText(characters) {
+        function getAnalyzedData(characters) {
             var charactersPressAndPause = calculatePressAndPauseTime(characters);
             var mathematicalHope = calculateMathematicalHope(charactersPressAndPause);
             var arrhythmia = calculateArrhythmia(charactersPressAndPause, mathematicalHope);
             var speed = calculateSpeed(characters);
             var overlaps = calculateOverlaps(characters, getMax(charactersPressAndPause, 'pressTime'));
 
-            User.saveUserData(charactersPressAndPause, mathematicalHope, arrhythmia, speed, overlaps).then(function (response) {
-                console.log('From server');
-                console.log(response);
-            });
-
             console.log(charactersPressAndPause);
             console.log(mathematicalHope);
             console.log(arrhythmia);
             console.log(speed);
             console.log(overlaps);
+
+            return {
+                charactersPressAndPause: charactersPressAndPause,
+                mathematicalHope: mathematicalHope,
+                arrhythmia: arrhythmia,
+                speed: speed,
+                overlaps: overlaps
+            };
         }
 
         return {
-            handleUserText: handleUserText
+            getAnalyzedData: getAnalyzedData
         };
     }
 

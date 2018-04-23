@@ -18,12 +18,15 @@
         });
     }
 
-    function RegisterController($scope, textAnalyzerService) {
+    function RegisterController($scope, User, textAnalyzerService) {
         $scope.sampleText = 'london is the capital of great britain';
         $scope.onKeyUp = onKeyUp;
         $scope.onKeyDown = onKeyDown;
+        $scope.isRegisterButtonDisabled = isRegisterButtonDisabled;
+        $scope.register = register;
 
         var characters = [];
+        var userSignParameters = null;
 
         function onKeyUp(e) {
             !isValidUserText() && handleUserTextError();
@@ -56,8 +59,25 @@
         }
 
         function handleUserTextFinish() {
-            textAnalyzerService.handleUserText(characters);
+            userSignParameters = textAnalyzerService.getAnalyzedData(characters);
             characters = [];
+        }
+
+        function isRegisterButtonDisabled() {
+            return !$scope.fullName || !$scope.password || userSignParameters === null;
+        }
+
+        function register() {
+            var userData = {
+                name: $scope.fullName,
+                password: $scope.password,
+                keyboard: userSignParameters
+            };
+
+            User.saveUserData(userData).then(function (response) {
+                console.log('From server');
+                console.log(response);
+            });
         }
     }
 

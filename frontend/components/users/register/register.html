@@ -1,7 +1,7 @@
 <h1 class="header">New account?</h1>
 
 <div class="register-form-container">
-    <form action="" method="POST" id="register-form">
+    <div id="register-form">
         <p>
             <span>Your name: </span>
             <input type="text" ng-model="fullName">
@@ -21,5 +21,9 @@
                 ng-keyup="onKeyUp($event)"
                 ng-keydown="onKeyDown($event)"></textarea>
         </div>
-    </form>
+
+        <div class="button">
+            <button id="save-button" ng-click="register()" ng-disabled="isRegisterButtonDisabled()">Save user</button>
+        </div>
+    </div>
 </div>

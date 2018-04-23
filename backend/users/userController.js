@@ -1,18 +1,19 @@
+const mongoose = require('mongoose');
 
 function saveUserData(req, res) {
-    const userData = {
-        name: 'Yurii',
-        keyboard: req.body
-    };
+    const User = mongoose.model('User');
+    const userData = req.body;
 
-    const User = require('mongoose').model('User');
-
-    User.create(userData, (err, user) => {
-        if (err) {
-            return res.send(err);
+    User.findOne({name: userData.name}).exec((err, finded) => {
+        if (!err && finded.length === 0) {
+            User.create(userData, (err, user) => {
+                if (err) {
+                    return res.send(err);
+                }
+        
+                return res.send(user);
+            });
         }
-
-        return res.send(user);
     });
 }
 

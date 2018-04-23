@@ -8,16 +8,8 @@
     function UserResource($resource) {
         var basePath = '/user';
         
-        function saveUserData(charactersPressAndPause, mathematicalHope, arrhythmia, speed, overlaps) {
-            var result = {
-                charactersPressAndPause: charactersPressAndPause,
-                mathematicalHope: mathematicalHope,
-                arrhythmia: arrhythmia,
-                speed: speed,
-                overlaps: overlaps
-            };
-
-            return $resource(basePath).save(result).$promise;
+        function saveUserData(userData) {
+            return $resource(basePath).save(userData).$promise;
         }
 
         return {
