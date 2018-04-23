@@ -100,7 +100,10 @@
             var speed = calculateSpeed(characters);
             var overlaps = calculateOverlaps(characters, getMax(charactersPressAndPause, 'pressTime'));
 
-            User.saveUserData(charactersPressAndPause, mathematicalHope, arrhythmia, speed, overlaps);
+            User.saveUserData(charactersPressAndPause, mathematicalHope, arrhythmia, speed, overlaps).then(function (response) {
+                console.log('From server');
+                console.log(response);
+            });
 
             console.log(charactersPressAndPause);
             console.log(mathematicalHope);
