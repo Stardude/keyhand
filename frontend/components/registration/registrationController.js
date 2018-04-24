@@ -18,60 +18,25 @@
         });
     }
 
-    function RegistrationController($scope, User, textAnalyzerService) {
-        $scope.sampleText = 'london is the capital of great britain';
-        $scope.onKeyUp = onKeyUp;
-        $scope.onKeyDown = onKeyDown;
+    function RegistrationController($scope, EVENTS, User, eventService) {
         $scope.isRegisterButtonDisabled = isRegisterButtonDisabled;
         $scope.register = register;
 
-        var characters = [];
-        var userSignParameters = null;
+        eventService.register(EVENTS.TEXTAREA_FULFILLED, onTextareaFulFilled);
 
-        function onKeyUp(e) {
-            !isValidUserText() && handleUserTextError();
-            for (var i = characters.length - 1; i >= 0; i--) {
-                if (characters[i].key === e.key) {
-                    characters[i].upTime = e.timeStamp;
-                    break;
-                }
-            }
-            $scope.sampleText === $scope.userText && characters[characters.length - 1].key === e.key && handleUserTextFinish();
-        }
-
-        function onKeyDown(e) {
-            if ((e.keyCode > 64 && e.keyCode < 91) || e.keyCode === 32) {
-                characters.push({
-                    key: e.key,
-                    upTime: null,
-                    downTime: e.timeStamp
-                });
-            }
-        }
-
-        function isValidUserText() {
-            return $scope.sampleText.substr(0, $scope.userText.length) === $scope.userText;
-        }
-
-        function handleUserTextError() {
-            $scope.userText = '';
-            characters = [];
-        }
-
-        function handleUserTextFinish() {
-            userSignParameters = textAnalyzerService.getAnalyzedData(characters);
-            characters = [];
+        function onTextareaFulFilled(eventParams) {
+            console.log('textarea completed');
         }
 
         function isRegisterButtonDisabled() {
-            return !$scope.fullName || !$scope.password || userSignParameters === null;
+            return !$scope.fullName || !$scope.password;
         }
 
         function register() {
             var userData = {
                 name: $scope.fullName,
                 password: $scope.password,
-                keyboard: userSignParameters
+                keyboard: null
             };
 
             User.saveUserData(userData).then(function (response) {
