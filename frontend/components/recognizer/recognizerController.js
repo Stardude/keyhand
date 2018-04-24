@@ -19,11 +19,7 @@
     }
 
     function RecognizerController($scope, $state, STATES) {
-        $scope.registerNewUser = registerNewUser;
-
-        function registerNewUser() {
-            $state.go(STATES.REGISTER);
-        }
+        
     }
 
 })(window.angular);

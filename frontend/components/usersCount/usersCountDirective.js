@@ -12,7 +12,7 @@
     function usersCountDirective() {
         return {
             restrict: 'E',
-            templateUrl: './components/users/usersCount.html',
+            templateUrl: './components/usersCount/usersCount.html',
             link: usersCountLink
         };
     }

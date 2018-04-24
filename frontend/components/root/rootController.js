@@ -19,7 +19,7 @@
     }
 
     function RootController($state, STATES) {
-        $state.go(STATES.RECOGNIZER);
+        $state.go(STATES.STARTPAGE);
     }
 
 })(window.angular);

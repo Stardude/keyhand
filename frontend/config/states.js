@@ -7,7 +7,8 @@
             REGISTER: 'root.register',
             LIST: 'root.list',
             RESULTS: 'root.results',
-            RECOGNIZER: 'root.recognizer'
+            RECOGNIZER: 'root.recognizer',
+            STARTPAGE: 'root.startpage'
         });
 
 })(window.angular);

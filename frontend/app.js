@@ -9,7 +9,6 @@
         .run(run);
     
     function run($state, STATES) {
-        console.log('run');
         $state.go(STATES.ROOT);
     }
     

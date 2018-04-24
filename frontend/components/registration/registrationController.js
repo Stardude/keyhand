@@ -4,21 +4,21 @@
     angular
         .module('app')
         .config(config)
-        .controller('RegisterController', RegisterController);
+        .controller('RegistrationController', RegistrationController);
 
     function config($stateProvider, STATES) {
         $stateProvider.state(STATES.REGISTER, {
-            url: '/register',
+            url: '/registration',
             views: {
                 'center': {
-                    templateUrl: './components/users/register/register.html',
-                    controller: 'RegisterController'
+                    templateUrl: './components/registration/registration.html',
+                    controller: 'RegistrationController'
                 }
             }
         });
     }
 
-    function RegisterController($scope, User, textAnalyzerService) {
+    function RegistrationController($scope, User, textAnalyzerService) {
         $scope.sampleText = 'london is the capital of great britain';
         $scope.onKeyUp = onKeyUp;
         $scope.onKeyDown = onKeyDown;
