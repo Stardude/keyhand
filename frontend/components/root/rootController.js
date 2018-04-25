@@ -18,8 +18,12 @@
         });
     }
 
-    function RootController($state, STATES) {
+    function RootController($scope, $state, STATES) {
         $state.go(STATES.STARTPAGE);
+
+        $scope.goToStartpage = function () {
+            $state.go(STATES.STARTPAGE);
+        };
     }
 
 })(window.angular);

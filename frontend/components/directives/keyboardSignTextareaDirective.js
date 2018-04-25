@@ -5,7 +5,7 @@
         .module('app')
         .directive('keyboardSignTextarea', keyboardSignTextareaDirective);
 
-    function keyboardSignTextareaDirective(EVENTS, textAnalyzerService, eventService) {
+    function keyboardSignTextareaDirective(textAnalyzerService) {
         function link(scope, element, attrs) {
             scope.sampleText = 'london is the capital of great britain';
             scope.onKeyUp = onKeyUp;
@@ -46,7 +46,7 @@
 
             function handleUserTextFinish() {
                 userSignParameters = textAnalyzerService.getAnalyzedData(characters);
-                eventService.emit(EVENTS.TEXTAREA_FULFILLED, userSignParameters);
+                scope.onTextareaFulfilled({userSignParameters: userSignParameters});
                 characters = [];
             }
         }
@@ -54,7 +54,9 @@
         return {
             restrict: 'E',
             templateUrl: './components/directives/keyboardSignTextarea.html',
-            scope: {},
+            scope: {
+                onTextareaFulfilled: '&'
+            },
             link: link
         };
     }

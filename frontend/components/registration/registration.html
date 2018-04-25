@@ -13,7 +13,7 @@
 
         <div class="line-divider"></div>
         
-        <keyboard-sign-textarea></keyboard-sign-textarea>
+        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
 
         <div class="button">
             <button id="save-button" ng-click="register()" ng-disabled="isRegisterButtonDisabled()">Save user</button>

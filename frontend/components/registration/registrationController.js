@@ -18,25 +18,26 @@
         });
     }
 
-    function RegistrationController($scope, EVENTS, User, eventService) {
+    function RegistrationController($scope, User) {
         $scope.isRegisterButtonDisabled = isRegisterButtonDisabled;
         $scope.register = register;
+        $scope.onTextareaFulfilled = onTextareaFulfilled;
 
-        eventService.register(EVENTS.TEXTAREA_FULFILLED, onTextareaFulFilled);
+        var userSignParameters = null;
 
-        function onTextareaFulFilled(eventParams) {
-            console.log('textarea completed');
+        function onTextareaFulfilled(parameters) {
+            userSignParameters = parameters;
         }
 
         function isRegisterButtonDisabled() {
-            return !$scope.fullName || !$scope.password;
+            return !$scope.fullName || !$scope.password || !userSignParameters;
         }
 
         function register() {
             var userData = {
                 name: $scope.fullName,
                 password: $scope.password,
-                keyboard: null
+                keyboard: userSignParameters
             };
 
             User.saveUserData(userData).then(function (response) {
