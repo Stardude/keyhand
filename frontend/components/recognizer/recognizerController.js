@@ -18,8 +18,27 @@
         });
     }
 
-    function RecognizerController($scope, $state, STATES) {
-        
+    function RecognizerController($scope, User) {
+        $scope.onTextareaFulfilled = onTextareaFulfilled;
+        $scope.verify = verify;
+        $scope.isVerifyButtonDisabled = isVerifyButtonDisabled;
+
+        var userSignParameters = null;
+
+        function onTextareaFulfilled (parameters) {
+            userSignParameters = parameters;
+        }
+
+        function verify () {
+            User.recognize(userSignParameters).then(function (response) {
+                console.log('Recognize result:');
+                console.log(response);
+            });
+        }
+
+        function isVerifyButtonDisabled () {
+            return !userSignParameters;
+        }
     }
 
 })(window.angular);

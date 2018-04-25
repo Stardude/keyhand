@@ -1,4 +1,7 @@
 const mongoose = require('mongoose');
+const _ = require('lodash');
+
+const keyboardAnalyzer = require('./../services/keyboardAnalyzer');
 
 function saveUserData(req, res) {
     const User = mongoose.model('User');
@@ -21,6 +24,26 @@ function saveUserData(req, res) {
     });
 }
 
+function recognize(req, res) {
+    const User = mongoose.model('User');
+    const keyboardData = JSON.parse(req.query.data);
+    let results = [];
+
+    User.find({}).exec((err, users) => {
+        if (err) {
+            return res.send(err);
+        }
+
+        _.forEach(users, user => {
+            let difference = keyboardAnalyzer.compare(user.keyboard, keyboardData);
+            results.push({ name: user.name, difference });
+        });
+
+        res.send(results);
+    });
+}
+
 module.exports = {
-    saveUserData
+    saveUserData,
+    recognize
 };

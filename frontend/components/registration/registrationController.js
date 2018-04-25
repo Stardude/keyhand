@@ -18,7 +18,7 @@
         });
     }
 
-    function RegistrationController($scope, User) {
+    function RegistrationController($scope, $state, STATES, User) {
         $scope.isRegisterButtonDisabled = isRegisterButtonDisabled;
         $scope.register = register;
         $scope.onTextareaFulfilled = onTextareaFulfilled;
@@ -44,6 +44,8 @@
                 console.log('From server');
                 console.log(response);
             });
+
+            $state.go(STATES.STARTPAGE);
         }
     }
 

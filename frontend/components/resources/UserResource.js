@@ -12,8 +12,13 @@
             return $resource(basePath).save(userData).$promise;
         }
 
+        function recognize(keyboardData) {
+            return $resource(basePath).query({data: keyboardData}).$promise;
+        }
+
         return {
-            saveUserData: saveUserData
+            saveUserData: saveUserData,
+            recognize: recognize
         };
     }
 

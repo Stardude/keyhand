@@ -1,2 +1,11 @@
-<h1 class="header">RECOGNIZER</h1>
+<h1 class="header">Recognizer</h1>
 
+<div class="register-form-container">
+        
+    <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
+
+    <div class="button">
+        <button id="verify-button" ng-click="verify()" ng-disabled="isVerifyButtonDisabled()">Verify user</button>
+    </div>
+
+</div>

@@ -5,13 +5,14 @@
         .module('app')
         .factory('textAnalyzerService', textAnalyzerService);
 
-    function textAnalyzerService() {
+    function textAnalyzerService(_) {
         var S_MAX = 900;
 
         function calculatePressAndPauseTime(characters) {
             var charactersPressAndPause = [];
             for (var i = 0; i < characters.length; i++) {
                 charactersPressAndPause.push({
+                    id: i,
                     key: characters[i].key,
                     pressTime: characters[i].upTime - characters[i].downTime,
                     pauseTime: (i + 1 !== characters.length) ? characters[i + 1].downTime -  characters[i].upTime : null
@@ -23,7 +24,7 @@
 
         function calculateMathematicalHope(charactersPressAndPause) {
             var sumPause = 0, sumPress = 0;
-            var maxPauseTime = getMax(charactersPressAndPause, 'pauseTime');
+            var maxPauseTime = _.maxBy(charactersPressAndPause, 'pauseTime').pauseTime;
 
             for (var i = 0; i < charactersPressAndPause.length; i++) {
                 if (i !== charactersPressAndPause.length - 1) {
@@ -38,18 +39,10 @@
             };
         }
 
-        function getMax(collection, field) {
-            var maxValue = collection[0][field];
-            for (var i = 0; i < collection.length; i++) {
-                maxValue = collection[i][field] > maxValue ? collection[i][field] : maxValue;
-            }
-            return maxValue;
-        }
-
         function calculateArrhythmia(charactersPressAndPause, mathematicalHope) {
             var sumAlpha = 0, sumBetta = 0;
-            var maxPauseTime = getMax(charactersPressAndPause, 'pauseTime');
-            var maxPressTime = getMax(charactersPressAndPause, 'pressTime');
+            var maxPauseTime = _.maxBy(charactersPressAndPause, 'pauseTime').pauseTime;
+            var maxPressTime = _.maxBy(charactersPressAndPause, 'pressTime').pressTime;
 
             for (var i = 0; i < charactersPressAndPause.length; i++) {
                 if (i !== charactersPressAndPause.length - 1) {
@@ -98,13 +91,7 @@
             var mathematicalHope = calculateMathematicalHope(charactersPressAndPause);
             var arrhythmia = calculateArrhythmia(charactersPressAndPause, mathematicalHope);
             var speed = calculateSpeed(characters);
-            var overlaps = calculateOverlaps(characters, getMax(charactersPressAndPause, 'pressTime'));
-
-            console.log(charactersPressAndPause);
-            console.log(mathematicalHope);
-            console.log(arrhythmia);
-            console.log(speed);
-            console.log(overlaps);
+            var overlaps = calculateOverlaps(characters, _.maxBy(charactersPressAndPause, 'pressTime').pressTime);
 
             return {
                 charactersPressAndPause: charactersPressAndPause,

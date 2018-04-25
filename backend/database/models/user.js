@@ -8,6 +8,7 @@ function declareSchema() {
         password: { type: String, required: requiredMsg },
         keyboard: {
             charactersPressAndPause: [{
+                id: Number,
                 key: String,
                 pressTime: Number,
                 pauseTime: Number
