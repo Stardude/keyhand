@@ -23,20 +23,20 @@
         $scope.verify = verify;
         $scope.isVerifyButtonDisabled = isVerifyButtonDisabled;
 
-        var userSignParameters = null;
+        var userSignParameters = [];
 
-        function onTextareaFulfilled (parameters) {
-            userSignParameters = parameters;
+        function onTextareaFulfilled(parameters) {
+            userSignParameters.push(parameters);
         }
 
-        function verify () {
+        function verify() {
             User.recognize(userSignParameters).then(function (response) {
                 console.log('Recognize result:');
                 console.log(response);
             });
         }
 
-        function isVerifyButtonDisabled () {
+        function isVerifyButtonDisabled() {
             return !userSignParameters;
         }
     }

@@ -64,14 +64,29 @@ function calculateInvMatrix(matrix) {
     return math.inv(matrix);
 }
 
+function calculateResult(vector, matrix, averages) {
+    let sum = 0;
+
+    for (let i = 0; i < matrix.length; i++) {
+        for (let j = 0; j < matrix[i].length; j++) {
+            sum += matrix[i][j] * (vector[i] - averages[i]) * (vector[j] - averages[j]);
+        }
+    }
+
+    return sum / 2;
+}
+
 function compare(originKeyboard, keyboard) {
     const vectors = createVectors(originKeyboard);
     const mathematicalHopes = calculateMathematicalHopes(vectors);
     const covMatrix = calculateCovMatrix(vectors, mathematicalHopes);
     const invMatrix = calculateInvMatrix(covMatrix);
 
+    const userVector = createVectors([keyboard])[0];
+    const result = calculateResult(userVector, invMatrix, mathematicalHopes);
+
     return {
-        invMatrix
+        result
     };
 }
 
