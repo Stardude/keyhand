@@ -7,7 +7,7 @@
 
     function keyboardSignTextareaDirective(textAnalyzerService) {
         function link(scope, element, attrs) {
-            scope.sampleText = 'london is the capital of great britain';
+            scope.sampleText = 'yura';
             scope.onKeyUp = onKeyUp;
             scope.onKeyDown = onKeyDown;
 

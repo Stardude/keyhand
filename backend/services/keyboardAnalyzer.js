@@ -1,5 +1,7 @@
 const _ = require('lodash');
-var math = require('mathjs');
+const math = require('mathjs');
+
+const PRECISION = 3;
 
 function createVectors(keyboard) {
     let vectors = [];
@@ -39,7 +41,7 @@ function calculateMathematicalHopes(vectors) {
         mathematicalHope.push(_.mean(value));
     }
 
-    return mathematicalHope;
+    return _.map(mathematicalHope, item => _.round(item, PRECISION));
 }
 
 function calculateCovMatrix(vectors, mathematicalHopes) {
@@ -55,6 +57,8 @@ function calculateCovMatrix(vectors, mathematicalHopes) {
 
             covMatrix[i][j] = _.sum(sumArray) / (vectors.length - 1);
         }
+
+        covMatrix[i] = _.map(covMatrix[i], item => _.round(item, PRECISION));
     }
 
     return covMatrix;
@@ -86,6 +90,8 @@ function compare(originKeyboard, keyboard) {
     const result = calculateResult(userVector, invMatrix, mathematicalHopes);
 
     return {
+        covMatrix,
+        invMatrix,
         result
     };
 }
