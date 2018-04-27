@@ -1,52 +1,71 @@
 const _ = require('lodash');
 
-function calculateEuclidDifference(value1, value2) {
-    return Math.sqrt(Math.pow((value1 - value2), 2));
-}
+function createVectors(keyboard) {
+    let vectors = [];
 
-function compareCharactersPressAndPause(originSymbols, symbols) {
-    let results = [];
+    _.forEach(keyboard, sign => {
+        let vector = [];
 
-    _.forEach(originSymbols, originSymbol => {
-        let symbol = _.find(symbols, {id: originSymbol.id});
-        results.push({
-            key: symbol.key,
-            pauseTime: calculateEuclidDifference(originSymbol.pauseTime, symbol.pauseTime),
-            pressTime: calculateEuclidDifference(originSymbol.pressTime, symbol.pressTime)
+        _.forEach(sign.charactersPressAndPause, symbol => {
+            vector.push(symbol.pressTime);
+            vector.push(symbol.pauseTime);
         });
+
+        vector.push(sign.mathematicalHope.pressTime);
+        vector.push(sign.mathematicalHope.pauseTime);
+        vector.push(sign.arrhythmia.alpha);
+        vector.push(sign.arrhythmia.betta);
+        vector.push(sign.speed);
+        vector.push(sign.overlaps.averageTime);
+        vector.push(sign.overlaps.averageSquareOffset);
+
+        vectors.push(vector);
     });
 
-    return results;
+    return vectors;
 }
 
-function compareMathematicalHope(origin, data) {
-    return {
-        pause: calculateEuclidDifference(origin.pause, data.pause),
-        press: calculateEuclidDifference(origin.press, data.press)
-    };
+function calculateMathematicalHopes(vectors) {
+    let mathematicalHope = [];
+
+    for (let i = 0; i < vectors[0].length; i++) {
+        let value = [];
+
+        for (let j = 0; j < vectors.length; j++) {
+            value.push(vectors[j][i]);
+        }
+
+        mathematicalHope.push(_.mean(value));
+    }
+
+    return mathematicalHope;
 }
 
-function compareArrhythmia(origin, data) {
-    return {
-        alpha: calculateEuclidDifference(origin.alpha, data.alpha),
-        betta: calculateEuclidDifference(origin.betta, data.betta)
-    };
+function calculateCovMatrix(vectors, mathematicalHopes) {
+    let covMatrix = [];
+
+    for (let i = 0; i < vectors[0].length; i++) {
+        covMatrix[i] = [];
+
+        for (let j = 0; j < vectors[0].length; j++) {
+            let sumArray = _.map(vectors, vector => {
+                return (vector[i] - mathematicalHopes[i]) * (vector[j] - mathematicalHopes[j]);
+            });
+
+            covMatrix[i][j] = _.sum(sumArray) / (vectors.length - 1);
+        }
+    }
+
+    return covMatrix;
 }
 
-function compareOverlaps(origin, data) {
-    return {
-        averageTime: calculateEuclidDifference(origin.averageTime, data.averageTime),
-        averageSquareOffset: calculateEuclidDifference(origin.averageSquareOffset, data.averageSquareOffset)
-    };
-}
+function compare(originKeyboard, keyboard) {
+    const vectors = createVectors(originKeyboard);
+    const mathematicalHopes = calculateMathematicalHopes(vectors);
+    const covMatrix = calculateCovMatrix(vectors, mathematicalHopes);
 
-function compare(originData, data) {
     return {
-        charactersPressAndPause: compareCharactersPressAndPause(originData.charactersPressAndPause, data.charactersPressAndPause),
-        mathematicalHope: compareMathematicalHope(originData.mathematicalHope, data.mathematicalHope),
-        arrhythmia: compareArrhythmia(originData.arrhythmia, data.arrhythmia),
-        overlaps: compareOverlaps(originData.overlaps, data.overlaps),
-        speed: calculateEuclidDifference(originData.speed, data.speed)
+        covMatrix
     };
 }
 

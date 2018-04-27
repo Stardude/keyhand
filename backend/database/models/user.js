@@ -6,7 +6,7 @@ function declareSchema() {
     const userSchema = mongoose.Schema({
         name: { type: String, required: requiredMsg },
         password: { type: String, required: requiredMsg },
-        keyboard: {
+        keyboard: [{
             charactersPressAndPause: [{
                 id: Number,
                 key: String,
@@ -26,7 +26,7 @@ function declareSchema() {
                 averageTime: Number,
                 averageSquareOffset: Number
             }
-        }
+        }]
     });
 
     const User = mongoose.model('User', userSchema);

@@ -23,14 +23,14 @@
         $scope.register = register;
         $scope.onTextareaFulfilled = onTextareaFulfilled;
 
-        var userSignParameters = null;
+        var userSignParameters = [];
 
         function onTextareaFulfilled(parameters) {
-            userSignParameters = parameters;
+            userSignParameters.push(parameters);
         }
 
         function isRegisterButtonDisabled() {
-            return !$scope.fullName || !$scope.password || !userSignParameters;
+            return !$scope.fullName || !$scope.password || !userSignParameters.length;
         }
 
         function register() {
