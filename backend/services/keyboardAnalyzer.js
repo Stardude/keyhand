@@ -1,4 +1,5 @@
 const _ = require('lodash');
+var math = require('mathjs');
 
 function createVectors(keyboard) {
     let vectors = [];
@@ -59,13 +60,18 @@ function calculateCovMatrix(vectors, mathematicalHopes) {
     return covMatrix;
 }
 
+function calculateInvMatrix(matrix) {
+    return math.inv(matrix);
+}
+
 function compare(originKeyboard, keyboard) {
     const vectors = createVectors(originKeyboard);
     const mathematicalHopes = calculateMathematicalHopes(vectors);
     const covMatrix = calculateCovMatrix(vectors, mathematicalHopes);
+    const invMatrix = calculateInvMatrix(covMatrix);
 
     return {
-        covMatrix
+        invMatrix
     };
 }
 
