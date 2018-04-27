@@ -7,6 +7,7 @@
 
     function textAnalyzerService(_) {
         var S_MAX = 900;
+        var PRECISION = 3;
 
         function calculatePressAndPauseTime(characters) {
             var charactersPressAndPause = [];
@@ -84,6 +85,26 @@
                 averageSquareOffset: Math.sqrt(sumAverageSquareOffset / (count - 1))
             };
         }
+
+        function roundValues(values) {
+            if (_.isArray(values)) {
+                _.forEach(values, function(item) {
+                    _.forEach(item, function(value, key) {
+                        if (_.isNumber(value)) {
+                            item[key] = _.round(value, PRECISION);
+                        }
+                    });
+                });
+            } else if (_.isObject(values)) {
+                _.forEach(values, function(value, key) {
+                    values[key] = _.round(value, PRECISION);
+                });
+            } else {
+                return _.round(values, PRECISION);
+            }
+
+            return values;
+        }
         
         function getAnalyzedData(characters) {
             var charactersPressAndPause = calculatePressAndPauseTime(characters);
@@ -93,11 +114,11 @@
             var overlaps = calculateOverlaps(characters, _.maxBy(charactersPressAndPause, 'pressTime').pressTime);
 
             return {
-                charactersPressAndPause: charactersPressAndPause,
-                mathematicalHope: mathematicalHope,
-                arrhythmia: arrhythmia,
-                speed: speed,
-                overlaps: overlaps
+                charactersPressAndPause: roundValues(charactersPressAndPause),
+                mathematicalHope: roundValues(mathematicalHope),
+                arrhythmia: roundValues(arrhythmia),
+                speed: roundValues(speed),
+                overlaps: roundValues(overlaps)
             };
         }
 
