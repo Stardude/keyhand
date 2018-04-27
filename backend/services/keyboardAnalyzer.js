@@ -8,11 +8,11 @@ function createVectors(keyboard) {
 
         _.forEach(sign.charactersPressAndPause, symbol => {
             vector.push(symbol.pressTime);
-            vector.push(symbol.pauseTime);
+            !_.isNil(symbol.pauseTime) && vector.push(symbol.pauseTime);
         });
 
-        vector.push(sign.mathematicalHope.pressTime);
-        vector.push(sign.mathematicalHope.pauseTime);
+        vector.push(sign.mathematicalHope.press);
+        vector.push(sign.mathematicalHope.pause);
         vector.push(sign.arrhythmia.alpha);
         vector.push(sign.arrhythmia.betta);
         vector.push(sign.speed);

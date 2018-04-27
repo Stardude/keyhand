@@ -12,7 +12,6 @@
             var charactersPressAndPause = [];
             for (var i = 0; i < characters.length; i++) {
                 charactersPressAndPause.push({
-                    id: i,
                     key: characters[i].key,
                     pressTime: characters[i].upTime - characters[i].downTime,
                     pauseTime: (i + 1 !== characters.length) ? characters[i + 1].downTime -  characters[i].upTime : null
