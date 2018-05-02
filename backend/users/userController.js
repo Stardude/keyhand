@@ -29,7 +29,7 @@ function recognize(req, res) {
     const keyboardData = JSON.parse(req.query.data);
     let results = [];
 
-    User.findOne({name: 'zxc'}).exec((err, user) => {
+    User.findOne({name: 'asd'}).exec((err, user) => {
         if (err) {
             return res.send(err);
         }

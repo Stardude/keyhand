@@ -7,20 +7,31 @@ function createVectors(keyboard) {
     let vectors = [];
 
     _.forEach(keyboard, sign => {
-        let vector = [];
+        let vector = {
+            words: [],
+            parameters: []
+        };
+
+        let localVector = [];
 
         _.forEach(sign.charactersPressAndPause, symbol => {
-            vector.push(symbol.pressTime);
-            !_.isNil(symbol.pauseTime) && vector.push(symbol.pauseTime);
+            localVector.push(symbol.pressTime);
+            !_.isNil(symbol.pauseTime) && localVector.push(symbol.pauseTime);
+
+            if (symbol.key === ' ') {
+                vector.words.push(localVector);
+                localVector = [];
+            }
         });
 
-        vector.push(sign.mathematicalHope.press);
-        vector.push(sign.mathematicalHope.pause);
-        vector.push(sign.arrhythmia.alpha);
-        vector.push(sign.arrhythmia.betta);
-        vector.push(sign.speed);
-        vector.push(sign.overlaps.averageTime);
-        vector.push(sign.overlaps.averageSquareOffset);
+        localVector.length !== 0 && vector.words.push(localVector);
+        vector.parameters.push(sign.mathematicalHope.press);
+        vector.parameters.push(sign.mathematicalHope.pause);
+        vector.parameters.push(sign.arrhythmia.alpha);
+        vector.parameters.push(sign.arrhythmia.betta);
+        vector.parameters.push(sign.speed);
+        vector.parameters.push(sign.overlaps.averageTime);
+        vector.parameters.push(sign.overlaps.averageSquareOffset);
 
         vectors.push(vector);
     });
@@ -29,43 +40,99 @@ function createVectors(keyboard) {
 }
 
 function calculateMathematicalHopes(vectors) {
-    let mathematicalHope = [];
+    let mathematicalHope = {
+        words: [],
+        parameters: []
+    };
 
-    for (let i = 0; i < vectors[0].length; i++) {
-        let value = [];
+    for (let i = 0; i < vectors[0].words.length; i++) {
+        let word = [];
+
+        for (let k = 0; k < vectors[0].words[i].length; k++) {
+            let symbols = [];
+
+            for (let j = 0; j < vectors.length; j++) {
+                symbols.push(vectors[j].words[i][k]);
+            }
+
+            word.push(_.mean(symbols));
+        }
+
+        mathematicalHope.words.push(word);
+    }
+
+    for (let i = 0; i < vectors[0].parameters.length; i++) {
+        let parameter = [];
 
         for (let j = 0; j < vectors.length; j++) {
-            value.push(vectors[j][i]);
+            parameter.push(vectors[j].parameters[i]);
         }
 
-        mathematicalHope.push(_.mean(value));
+        mathematicalHope.parameters.push(_.mean(parameter));
     }
 
-    return _.map(mathematicalHope, item => _.round(item, PRECISION));
+    mathematicalHope.parameters = _.map(mathematicalHope.parameters, item => _.round(item, PRECISION));
+    _.forEach(mathematicalHope.words, (word, index) => {
+        mathematicalHope.words[index] = _.map(word, item => _.round(item, PRECISION));
+    });
+
+    return mathematicalHope;
 }
 
-function calculateCovMatrix(vectors, mathematicalHopes) {
-    let covMatrix = [];
+function calculateCovMatrix(vectors, mathematicalHope) {
+    let parameters = [];
+    let words = [];
 
-    for (let i = 0; i < vectors[0].length; i++) {
-        covMatrix[i] = [];
+    for (let i = 0; i < vectors[0].parameters.length; i++) {
+        parameters[i] = [];
 
-        for (let j = 0; j < vectors[0].length; j++) {
+        for (let j = 0; j < vectors[0].parameters.length; j++) {
             let sumArray = _.map(vectors, vector => {
-                return (vector[i] - mathematicalHopes[i]) * (vector[j] - mathematicalHopes[j]);
+                return (vector.parameters[i] - mathematicalHope.parameters[i]) * (vector.parameters[j] - mathematicalHope.parameters[j]);
             });
 
-            covMatrix[i][j] = _.sum(sumArray) / (vectors.length - 1);
+            parameters[i][j] = _.sum(sumArray) / (vectors.length - 1);
         }
 
-        covMatrix[i] = _.map(covMatrix[i], item => _.round(item, PRECISION));
+        parameters[i] = _.map(parameters[i], item => _.round(item, PRECISION));
     }
 
-    return covMatrix;
+    for (let i = 0; i < vectors[0].words.length; i++) {
+        let word = [];
+
+        for (let j = 0; j < vectors[0].words[i].length; j++) {
+            word[j] = [];
+
+            for (let k = 0; k < vectors[0].words[i].length; k++) {
+                let sumArray = _.map(vectors, vector => {
+                    return (vector.words[i][j] - mathematicalHope.words[i][j]) * (vector.words[i][k] - mathematicalHope.words[i][k]);
+                });
+    
+                word[j][k] = _.sum(sumArray) / (vectors.length - 1);
+            }
+
+            word[j] = _.map(word[j], item => _.round(item, PRECISION));
+        }
+
+        words.push(word);
+    }
+
+    return { words, parameters };
 }
 
 function calculateInvMatrix(matrix) {
-    return math.inv(matrix);
+    let words = [];
+
+    _.forEach(matrix.words, word => {
+        words.push(_.map(math.inv(word), row => _.map(row, item => _.round(item, PRECISION))));
+    });
+
+    let parameters = _.map(math.inv(matrix.parameters), row => _.map(row, item => _.round(item, PRECISION)));
+
+    return {
+        words,
+        parameters
+    };
 }
 
 function calculateResult(vector, matrix, averages) {
@@ -82,17 +149,18 @@ function calculateResult(vector, matrix, averages) {
 
 function compare(originKeyboard, keyboard) {
     const vectors = createVectors(originKeyboard);
-    const mathematicalHopes = calculateMathematicalHopes(vectors);
-    const covMatrix = calculateCovMatrix(vectors, mathematicalHopes);
+    const mathematicalHope = calculateMathematicalHopes(vectors);
+    const covMatrix = calculateCovMatrix(vectors, mathematicalHope);
     const invMatrix = calculateInvMatrix(covMatrix);
 
-    const userVector = createVectors([keyboard])[0];
-    const result = calculateResult(userVector, invMatrix, mathematicalHopes);
+    // const userVector = createVectors([keyboard])[0];
+    // const result = calculateResult(userVector, invMatrix, mathematicalHope);
 
     return {
+        vectors,
+        mathematicalHope,
         covMatrix,
-        invMatrix,
-        result
+        invMatrix
     };
 }
 
