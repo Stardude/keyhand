@@ -5,9 +5,9 @@
         .module('app')
         .directive('keyboardSignTextarea', keyboardSignTextareaDirective);
 
-    function keyboardSignTextareaDirective(textAnalyzerService) {
+    function keyboardSignTextareaDirective(CONSTANTS, textAnalyzerService) {
         function link(scope, element, attrs) {
-            scope.sampleText = 'yura';
+            scope.sampleText = CONSTANTS.SAMPLE_TEXT;
             scope.onKeyUp = onKeyUp;
             scope.onKeyDown = onKeyDown;
 

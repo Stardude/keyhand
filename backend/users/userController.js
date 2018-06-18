@@ -27,9 +27,10 @@ function saveUserData(req, res) {
 function recognize(req, res) {
     const User = mongoose.model('User');
     const keyboardData = JSON.parse(req.query.data);
+    const authData = JSON.parse(req.query.authData);
     let results = [];
 
-    User.findOne({name: 'asd'}).exec((err, user) => {
+    User.findOne(authData).exec((err, user) => {
         if (err) {
             return res.send(err);
         }
@@ -41,7 +42,16 @@ function recognize(req, res) {
     });
 }
 
+function authByPassword(req, res) {
+    const User = mongoose.model('User');
+    const userData = JSON.parse(req.query.data);
+
+    User.findOne(userData)
+        .exec((err, user) => res.send((err || !user) ? {error: 'Password authentification failed'} : user));
+}
+
 module.exports = {
     saveUserData,
-    recognize
+    recognize,
+    authByPassword
 };

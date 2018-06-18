@@ -22,15 +22,19 @@
         $scope.onTextareaFulfilled = onTextareaFulfilled;
         $scope.verify = verify;
         $scope.isVerifyButtonDisabled = isVerifyButtonDisabled;
+        $scope.authenticate = authenticate;
+
+        $scope.isPasswordAuth = true;
 
         var userSignParameters = [];
+        var authData = null;
 
         function onTextareaFulfilled(parameters) {
             userSignParameters.push(parameters);
         }
 
         function verify() {
-            User.recognize(userSignParameters).then(function (response) {
+            User.recognize(userSignParameters, authData).then(function (response) {
                 console.log('Recognize result:');
                 console.log(response);
             });
@@ -38,6 +42,19 @@
 
         function isVerifyButtonDisabled() {
             return !userSignParameters;
+        }
+
+        function authenticate() {
+            authData = {
+                name: $scope.fullName,
+                password: $scope.password
+            };
+
+            User.authByPassword(authData).then(function (res) {
+                if (!res.error) {
+                    $scope.isPasswordAuth = false;
+                }
+            });
         }
     }
 

@@ -2,8 +2,8 @@
     'use strict'
 
     angular.module('app')
-        .constant('EVENTS', {
-            TEXTAREA_FULFILLED: 'TEXTAREA_FULFILLED'
+        .constant('CONSTANTS', {
+            SAMPLE_TEXT: 'london is the capital of great britain'
         })
         .constant('_', _);
 

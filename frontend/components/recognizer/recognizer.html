@@ -1,11 +1,28 @@
 <h1 class="header">Recognizer</h1>
 
 <div class="register-form-container">
-        
-    <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
 
-    <div class="button">
-        <button id="verify-button" ng-click="verify()" ng-disabled="isVerifyButtonDisabled()">Verify user</button>
+    <div ng-show="isPasswordAuth">
+        <p>
+            <span>Your name: </span>
+            <input type="text" ng-model="fullName">
+        </p>
+        <p>
+            <span>Your password: </span>
+            <input type="password" ng-model="password">
+        </p>
+
+        <div class="button">
+            <button id="auth-button" ng-click="authenticate()">Login</button>
+        </div>
+    </div>
+        
+    <div ng-show="!isPasswordAuth">
+        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
+
+        <div class="button">
+            <button id="verify-button" ng-click="verify()" ng-disabled="isVerifyButtonDisabled()">Verify user</button>
+        </div>
     </div>
 
 </div>
