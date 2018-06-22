@@ -77,7 +77,7 @@ body {
     padding: 5px;
 }
 
-#button-container {
+.button {
     &:extend(.main-font);
     font-size: 20pt;
     text-align: center;
@@ -91,6 +91,18 @@ body {
         border: none;
         cursor: pointer;
     }
+}
+
+#save-button, #verify-button, #auth-button {
+    &:extend(.main-font);
+    font-size: 20pt;
+    color: black;
+    margin: 0 auto;
+    display: inline-block;
+    background: none;
+    outline: none;
+    border: none;
+    cursor: pointer;
 }
 
 .text-divider {
@@ -127,30 +139,28 @@ body {
     border-radius: 5px;
 }
 
-#register-form {
-    span {
+span {
+    &:extend(.main-font);
+    font-size: 16pt;
+}
+
+input {
+    &:extend(.main-font);
+    font-size: 16pt;
+    outline: none;
+    border: 1px solid black;
+    border-radius: 10px;
+    width: 100%;
+    padding: 5px;
+}
+
+.sample {
+    margin: 30px 0;
+
+    div:first-child {
         &:extend(.main-font);
         font-size: 16pt;
-    }
-
-    input {
-        &:extend(.main-font);
-        font-size: 16pt;
-        outline: none;
-        border: 1px solid black;
-        border-radius: 10px;
-        width: 100%;
-        padding: 5px;
-    }
-
-    .sample {
-        margin: 30px 0;
-
-        div:first-child {
-            &:extend(.main-font);
-            font-size: 16pt;
-            margin-top: 50px;
-        }
+        margin-top: 50px;
     }
 }
 
