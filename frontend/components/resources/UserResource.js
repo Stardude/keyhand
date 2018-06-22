@@ -7,7 +7,6 @@
 
     function UserResource($resource) {
         var basePath = '/user';
-        var authPath = '/user/authByPassword'
         
         function saveUserData(userData) {
             return $resource(basePath).save(userData).$promise;
@@ -18,13 +17,18 @@
         }
 
         function authByPassword(authData) {
-            return $resource(authPath).get({data: authData}).$promise;
+            return $resource(basePath + '/authByPassword').get({data: authData}).$promise;
+        }
+
+        function getAllUsers() {
+            return $resource(basePath + '/getAllUsers').query().$promise;
         }
 
         return {
             saveUserData: saveUserData,
             recognize: recognize,
-            authByPassword: authByPassword
+            authByPassword: authByPassword,
+            getAllUsers: getAllUsers
         };
     }
 

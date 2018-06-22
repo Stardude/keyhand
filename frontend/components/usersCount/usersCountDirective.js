@@ -5,15 +5,22 @@
         .module('app')
         .directive('usersCount', usersCountDirective);
 
-    function usersCountLink(scope) {
+    function usersCountController($scope, $state, STATES, User) {
+        User.getAllUsers().then(function (users) {
+            $scope.userCount = users.length;
+            $scope.users = users;
+        });
 
+        $scope.goToUserList = function () {
+            $state.go(STATES.LIST, {data: $scope.users});
+        };
     }
 
     function usersCountDirective() {
         return {
             restrict: 'E',
             templateUrl: './components/usersCount/usersCount.html',
-            link: usersCountLink
+            controller: usersCountController
         };
     }
 

@@ -35,6 +35,11 @@ body {
             text-align: right;
             width: 200px;
             font-size: 16pt;
+            cursor: pointer;
+
+            &:hover {
+                text-decoration: underline;
+            }
         }
     }
 }
@@ -167,4 +172,13 @@ input {
 .sample-text {
     font-style: italic;
     font-size: 16pt;
+}
+
+.user-list-table {
+    border-collapse: collapse;
+    
+    th, td {
+        border: 1px solid black;
+        padding: 5px;
+    }
 }

@@ -1,0 +1,27 @@
+<table class="user-list-table">
+    <tr>
+        <th>Fullname</th>
+        <th>Arrhythmia</th>
+        <th>Mathematical Hope</th>
+        <th>Overlaps</th>
+        <th>Speed</th>
+    </tr>
+    <tr ng-repeat="user in users">
+        <th>{{user.name}}</th>
+        <td>
+            Alpha: {{user.keyboard[0].arrhythmia.alpha}}
+            Betta: {{user.keyboard[0].arrhythmia.betta}}
+        </td>
+        <td>
+            Pause: {{user.keyboard[0].mathematicalHope.pause}}
+            Press: {{user.keyboard[0].mathematicalHope.press}}
+        </td>
+        <td>
+            AverageTime: {{user.keyboard[0].overlaps.averageTime}}
+            AverageSquareOffset: {{user.keyboard[0].overlaps.averageSquareOffset}}
+        </td>
+        <td>
+            {{user.keyboard[0].speed}}
+        </td>
+    </tr>
+</table>

@@ -50,8 +50,15 @@ function authByPassword(req, res) {
         .exec((err, user) => res.send((err || !user) ? {error: 'Password authentification failed'} : user));
 }
 
+function getAllUsers(req, res) {
+    const User = mongoose.model('User');
+
+    User.find({}).exec((err, users) => res.send(err ? {error: 'There are no users'} : users));
+}
+
 module.exports = {
     saveUserData,
     recognize,
-    authByPassword
+    authByPassword,
+    getAllUsers
 };
