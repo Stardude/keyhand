@@ -15,12 +15,12 @@ function createVectors(keyboard) {
         let localVector = [];
 
         _.forEach(sign.charactersPressAndPause, symbol => {
-            localVector.push(symbol.pressTime);
-            !_.isNil(symbol.pauseTime) && localVector.push(symbol.pauseTime);
-
             if (symbol.key === ' ') {
                 vector.words.push(localVector);
                 localVector = [];
+            } else {
+                localVector.push(symbol.pressTime);
+                !_.isNil(symbol.pauseTime) && localVector.push(symbol.pauseTime);
             }
         });
 
@@ -136,15 +136,33 @@ function calculateInvMatrix(matrix) {
 }
 
 function calculateResult(vector, matrix, averages) {
-    let sum = 0;
+    let parametersResult = 0;
 
-    for (let i = 0; i < matrix.length; i++) {
-        for (let j = 0; j < matrix[i].length; j++) {
-            sum += matrix[i][j] * (vector[i] - averages[i]) * (vector[j] - averages[j]);
+    for (let i = 0; i < matrix.parameters.length; i++) {
+        for (let j = 0; j < matrix.parameters[i].length; j++) {
+            parametersResult += matrix.parameters[i][j] * (vector.parameters[i] - averages.parameters[i]) * (vector.parameters[j] - averages.parameters[j]);
         }
     }
 
-    return sum / 2;
+    let wordsResult = [];
+    let wordsSum = 0;
+    _.forEach(matrix.words, (word, k) => {
+        wordsSum = 0;
+        for (let i = 0; i < word.length; i++) {
+            for (let j = 0; j < word[i].length; j++) {
+                wordsSum += (vector.words[k][i] - averages.words[k][i]) * (vector.words[k][j] - averages.words[k][j]);
+            }
+        }
+        wordsResult.push(wordsSum);
+    });
+
+    return {
+        parameters: _.round(parametersResult / 2, PRECISION),
+        words: _.map(wordsResult, word => {
+            word = word / 2;
+            return _.round(word, PRECISION);
+        })
+    };
 }
 
 function compare(originKeyboard, keyboard) {
@@ -153,14 +171,18 @@ function compare(originKeyboard, keyboard) {
     const covMatrix = calculateCovMatrix(vectors, mathematicalHope);
     const invMatrix = calculateInvMatrix(covMatrix);
 
-    // const userVector = createVectors([keyboard])[0];
-    // const result = calculateResult(userVector, invMatrix, mathematicalHope);
+    const userVector = createVectors([keyboard])[0];
+    const result = calculateResult(userVector, invMatrix, mathematicalHope);
 
     return {
+        originKeyboard,
+        keyboard,
         vectors,
         mathematicalHope,
         covMatrix,
-        invMatrix
+        invMatrix,
+        userVector,
+        result
     };
 }
 

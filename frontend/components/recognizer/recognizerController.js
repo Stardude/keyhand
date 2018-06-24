@@ -24,7 +24,10 @@
         $scope.isVerifyButtonDisabled = isVerifyButtonDisabled;
         $scope.authenticate = authenticate;
 
+        $scope.maxOffset = 5000;
         $scope.isPasswordAuth = true;
+        $scope.result = null;
+        $scope.textResult = 'invalid';
 
         var userSignParameters = [];
         var authData = null;
@@ -37,6 +40,8 @@
             User.recognize(userSignParameters, authData).then(function (response) {
                 console.log('Recognize result:');
                 console.log(response);
+                $scope.result = response.difference.result.parameters;
+                $scope.textResult = $scope.result < $scope.maxOffset ? 'valid' : 'invalid';
             });
         }
 

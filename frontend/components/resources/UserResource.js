@@ -13,7 +13,7 @@
         }
 
         function recognize(keyboardData, authData) {
-            return $resource(basePath).query({data: keyboardData, authData: authData}).$promise;
+            return $resource(basePath).get({data: keyboardData, authData: authData}).$promise;
         }
 
         function authByPassword(authData) {

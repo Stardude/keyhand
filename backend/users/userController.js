@@ -28,7 +28,6 @@ function recognize(req, res) {
     const User = mongoose.model('User');
     const keyboardData = JSON.parse(req.query.data);
     const authData = JSON.parse(req.query.authData);
-    let results = [];
 
     User.findOne(authData).exec((err, user) => {
         if (err) {
@@ -36,9 +35,8 @@ function recognize(req, res) {
         }
 
         let difference = keyboardAnalyzer.compare(user.keyboard, keyboardData);
-        results.push({ name: user.name, difference });
 
-        res.send(results);
+        res.send({ name: user.name, difference });
     });
 }
 
