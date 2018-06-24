@@ -2,6 +2,7 @@ const _ = require('lodash');
 const math = require('mathjs');
 
 const PRECISION = 3;
+const COEF = 2.78;
 
 function createVectors(keyboard) {
     let vectors = [];
@@ -150,16 +151,16 @@ function calculateResult(vector, matrix, averages) {
         wordsSum = 0;
         for (let i = 0; i < word.length; i++) {
             for (let j = 0; j < word[i].length; j++) {
-                wordsSum += (vector.words[k][i] - averages.words[k][i]) * (vector.words[k][j] - averages.words[k][j]);
+                wordsSum += word[i][j] * (vector.words[k][i] - averages.words[k][i]) * (vector.words[k][j] - averages.words[k][j]);
             }
         }
         wordsResult.push(wordsSum);
     });
 
     return {
-        parameters: _.round(parametersResult / 2, PRECISION),
+        parameters: _.round((parametersResult / 2) - COEF * COEF, PRECISION),
         words: _.map(wordsResult, word => {
-            word = word / 2;
+            word = (word / 2) - COEF * COEF;
             return _.round(word, PRECISION);
         })
     };

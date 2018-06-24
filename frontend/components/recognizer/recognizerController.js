@@ -24,7 +24,7 @@
         $scope.isVerifyButtonDisabled = isVerifyButtonDisabled;
         $scope.authenticate = authenticate;
 
-        $scope.maxOffset = 5000;
+        $scope.maxOffset = 0;
         $scope.isPasswordAuth = true;
         $scope.result = null;
         $scope.textResult = 'invalid';
