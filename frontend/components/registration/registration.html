@@ -12,28 +12,17 @@
         </p>
 
         <div class="line-divider"></div>
+
+        <div>
+            <span>How many examples?</span>
+            <input type="number" ng-model="numberOfSigns">
+        </div>
+
+        <div class="line-divider"></div>
         
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
-        
+        <div ng-repeat="i in getNumber(numberOfSigns) track by $index">
+            <keyboard-sign-textarea on-textarea-fulfilled="onTextareaFulfilled(userSignParameters)"></keyboard-sign-textarea>
+        </div>
 
         <div class="button">
             <button id="save-button" ng-click="register()" ng-disabled="isRegisterButtonDisabled()">Save user</button>

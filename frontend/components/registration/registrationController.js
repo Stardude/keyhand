@@ -23,6 +23,11 @@
         $scope.register = register;
         $scope.onTextareaFulfilled = onTextareaFulfilled;
 
+        $scope.numberOfSigns = 5;
+        $scope.getNumber = function (number) {
+            return new Array(number);
+        };
+
         var userSignParameters = [];
 
         function onTextareaFulfilled(parameters) {
