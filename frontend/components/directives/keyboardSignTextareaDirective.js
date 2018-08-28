@@ -6,7 +6,7 @@
         .directive('keyboardSignTextarea', keyboardSignTextareaDirective);
 
     function keyboardSignTextareaDirective(CONSTANTS, textAnalyzerService) {
-        function link(scope, element, attrs) {
+        function link(scope) {
             scope.sampleText = CONSTANTS.SAMPLE_TEXT;
             scope.onKeyUp = onKeyUp;
             scope.onKeyDown = onKeyDown;
@@ -15,14 +15,16 @@
             var userSignParameters = null;
 
             function onKeyUp(e) {
-                !isValidUserText() && handleUserTextError();
-                for (var i = characters.length - 1; i >= 0; i--) {
-                    if (characters[i].key === e.key) {
-                        characters[i].upTime = e.timeStamp;
-                        break;
+                if ((e.keyCode > 64 && e.keyCode < 91) || e.keyCode === 32) {
+                    !isValidUserText() && handleUserTextError();
+                    for (var i = characters.length - 1; i >= 0; i--) {
+                        if (characters[i].key === e.key) {
+                            characters[i].upTime = e.timeStamp;
+                            break;
+                        }
                     }
+                    scope.sampleText === scope.userText && characters[characters.length - 1].key === e.key && handleUserTextFinish();
                 }
-                scope.sampleText === scope.userText && characters[characters.length - 1].key === e.key && handleUserTextFinish();
             }
 
             function onKeyDown(e) {
@@ -32,6 +34,8 @@
                         upTime: null,
                         downTime: e.timeStamp
                     });
+                } else if (e.keyCode === 8) {
+                    characters.pop();
                 }
             }
 
